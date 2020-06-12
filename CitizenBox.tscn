@@ -1,0 +1,68 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://citizen.png" type="Texture" id=1]
+[ext_resource path="res://CitizenBox.gd" type="Script" id=2]
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.26, 0.26, 0.26, 1 )
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 0.77, 0.77, 0.77, 1 )
+border_blend = true
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+
+[node name="Panel" type="Panel"]
+margin_right = 250.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 250, 50 )
+custom_styles/panel = SubResource( 1 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Place" type="Button" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -83.7736
+margin_top = 14.5288
+margin_right = -13.7736
+margin_bottom = -15.4712
+text = "Place"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Profession_1" type="Label" parent="."]
+margin_left = 55.0
+margin_top = 8.0
+margin_right = 190.0
+margin_bottom = 20.0
+text = "Gatherer 1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Profession_2" type="Label" parent="."]
+margin_left = 55.0
+margin_top = 26.0
+margin_right = 190.0
+margin_bottom = 36.0
+text = "Woodcutter 1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = 5.00688
+margin_top = 5.0
+margin_right = 45.0069
+margin_bottom = 45.0
+texture = ExtResource( 1 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}

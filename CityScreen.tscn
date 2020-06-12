@@ -1,0 +1,106 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://CityScreen.gd" type="Script" id=1]
+[ext_resource path="res://CitizenBox.tscn" type="PackedScene" id=2]
+
+[node name="CityScreen" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CityName" type="Label" parent="."]
+margin_left = 247.645
+margin_top = -0.484718
+margin_right = 790.645
+margin_bottom = 50.5153
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ResourcePanel" type="TabContainer" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 300.0
+margin_top = -170.0
+margin_right = 740.0
+margin_bottom = -15.0001
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Yield" type="GridContainer" parent="ResourcePanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+columns = 6
+
+[node name="Storage" type="GridContainer" parent="ResourcePanel"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CitizenScroll" type="ScrollContainer" parent="."]
+anchor_bottom = 1.0
+margin_top = 100.0
+margin_right = 255.0
+margin_bottom = -338.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CitizensPanel" type="GridContainer" parent="CitizenScroll"]
+margin_right = 250.0
+margin_bottom = 104.0
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" parent="CitizenScroll/CitizensPanel" instance=ExtResource( 2 )]
+
+[node name="Panel2" parent="CitizenScroll/CitizensPanel" instance=ExtResource( 2 )]
+margin_top = 54.0
+margin_bottom = 104.0
+
+[node name="BuildingScroll" type="ScrollContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 0.001
+anchor_bottom = 1.0
+margin_left = 12.0
+margin_top = -332.0
+margin_right = 230.976
+margin_bottom = -1.0
+mouse_filter = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridContainer" type="GridContainer" parent="BuildingScroll"]
+margin_right = 75.0
+margin_bottom = 20.0
+mouse_filter = 2
+
+[node name="Claim" type="Button" parent="BuildingScroll/GridContainer"]
+margin_right = 75.0
+margin_bottom = 20.0
+grow_horizontal = 0
+text = "Claim Tile"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="BuildingScroll/GridContainer/Claim" to="." method="claim_tile"]

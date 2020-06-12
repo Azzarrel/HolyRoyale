@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://SorageBar.gd" type="Script" id=1]
+[ext_resource path="res://gold.png" type="Texture" id=2]
+[ext_resource path="res://bar_fill.png" type="Texture" id=3]
+[ext_resource path="res://bar_empty.png" type="Texture" id=4]
+
+[node name="Control" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -704.0
+margin_bottom = -584.0
+rect_min_size = Vector2( 320, 16 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureProgress" type="TextureProgress" parent="."]
+margin_left = 20.0
+margin_right = 320.0
+margin_bottom = 16.0
+value = 100.0
+texture_under = ExtResource( 4 )
+texture_progress = ExtResource( 3 )
+tint_progress = Color( 0.392157, 0.101961, 0.101961, 1 )
+nine_patch_stretch = true
+stretch_margin_left = 8
+stretch_margin_top = 2
+stretch_margin_right = 8
+stretch_margin_bottom = 8
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 16.0
+margin_bottom = 16.0
+rect_min_size = Vector2( 16, 16 )
+texture = ExtResource( 2 )

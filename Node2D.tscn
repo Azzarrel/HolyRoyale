@@ -1,0 +1,161 @@
+[gd_scene load_steps=19 format=2]
+
+[ext_resource path="res://tileset.tres" type="TileSet" id=1]
+[ext_resource path="res://Border.tscn" type="PackedScene" id=2]
+[ext_resource path="res://TurnManager.gd" type="Script" id=3]
+[ext_resource path="res://WorldMap.gd" type="Script" id=4]
+[ext_resource path="res://icon.png" type="Texture" id=5]
+[ext_resource path="res://Player.gd" type="Script" id=6]
+[ext_resource path="res://FeatureRect.gd" type="Script" id=7]
+[ext_resource path="res://YieldLabel.gd" type="Script" id=8]
+[ext_resource path="res://SelecteTileHighlight.gd" type="Script" id=9]
+[ext_resource path="res://features/city.png" type="Texture" id=10]
+[ext_resource path="res://City.gd" type="Script" id=11]
+[ext_resource path="res://Unit.gd" type="Script" id=12]
+[ext_resource path="res://UnitsOnTile.gd" type="Script" id=13]
+[ext_resource path="res://TileSelector.gd" type="Script" id=14]
+[ext_resource path="res://Label.gd" type="Script" id=15]
+[ext_resource path="res://CityScreen.tscn" type="PackedScene" id=16]
+[ext_resource path="res://Camera2D.gd" type="Script" id=17]
+[ext_resource path="res://features/farm.png" type="Texture" id=18]
+
+[node name="root" type="Node"]
+
+[node name="WorldMap" type="Node2D" parent="."]
+script = ExtResource( 4 )
+world_seed = 1585
+
+[node name="TileMap" type="TileMap" parent="WorldMap"]
+tile_set = ExtResource( 1 )
+cell_size = Vector2( 64, 48 )
+cell_half_offset = 0
+format = 1
+
+[node name="City" type="Node2D" parent="WorldMap"]
+script = ExtResource( 11 )
+
+[node name="Sprite" type="Sprite" parent="WorldMap/City"]
+position = Vector2( 32, 32 )
+texture = ExtResource( 10 )
+
+[node name="Border" parent="WorldMap/City" instance=ExtResource( 2 )]
+
+[node name="Player" type="Node" parent="."]
+script = ExtResource( 6 )
+
+[node name="Border" parent="." instance=ExtResource( 2 )]
+
+[node name="SelecteTileHighlight" type="Line2D" parent="."]
+points = PoolVector2Array( 0, 16, 32, 0, 64, 16, 64, 48, 32, 64, 0, 48, 0, 16 )
+width = 4.0
+default_color = Color( 1, 1, 1, 1 )
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
+script = ExtResource( 9 )
+
+[node name="TurnManager" type="Node" parent="."]
+script = ExtResource( 3 )
+
+[node name="Unit" type="Node2D" parent="."]
+script = ExtResource( 12 )
+
+[node name="icon" type="Sprite" parent="Unit"]
+position = Vector2( -55.8521, 8.51404 )
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 5 )
+
+[node name="TileSelector" type="Node2D" parent="."]
+visible = false
+position = Vector2( 141.241, 108.063 )
+script = ExtResource( 14 )
+
+[node name="Hex" type="Polygon2D" parent="TileSelector"]
+color = Color( 0.635294, 0.87451, 0.905882, 0.498039 )
+polygon = PoolVector2Array( 0, 16, 32, 0, 64, 16, 64, 48, 32, 64, 0, 48 )
+script = ExtResource( 14 )
+
+[node name="Sprite" type="Sprite" parent="TileSelector"]
+modulate = Color( 1, 1, 1, 0.603922 )
+position = Vector2( 32, 32 )
+texture = ExtResource( 18 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 509.51, 303.251 )
+current = true
+script = ExtResource( 17 )
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="CityScreen" parent="UI" instance=ExtResource( 16 )]
+visible = false
+anchor_right = 0.999
+anchor_bottom = 0.995
+mouse_filter = 2
+
+[node name="Button" type="Button" parent="UI"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -199.465
+margin_top = -180.201
+margin_right = -20.4625
+margin_bottom = -24.2005
+text = "End Turn"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FeatureRect" type="TextureRect" parent="UI"]
+margin_left = 47.6453
+margin_top = 434.348
+margin_right = 87.6453
+margin_bottom = 474.348
+script = ExtResource( 7 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="YieldLabel" type="Label" parent="UI"]
+margin_left = 178.0
+margin_top = 17.0
+margin_right = 484.0
+margin_bottom = 62.0
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UnitsOnTile" type="Label" parent="UI"]
+margin_left = 901.0
+margin_top = 24.0
+margin_right = 995.0
+margin_bottom = 298.0
+script = ExtResource( 13 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UI"]
+margin_left = 143.963
+margin_top = 0.385045
+margin_right = 302.963
+margin_bottom = 57.385
+script = ExtResource( 15 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TurnNumberDisplay" type="Label" parent="UI"]
+margin_left = 917.611
+margin_top = 2.14262
+margin_right = 1021.61
+margin_bottom = 36.1426
+text = "Turn: 0"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="end_turn" from="TurnManager" to="WorldMap" method="_on_TurnManager_end_turn"]
+[connection signal="end_turn" from="TurnManager" to="UI/CityScreen" method="_on_TurnManager_end_turn"]
+[connection signal="pressed" from="UI/Button" to="TurnManager" method="_on_end_turn"]
