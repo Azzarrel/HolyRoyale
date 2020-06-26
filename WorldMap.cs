@@ -11,27 +11,29 @@ namespace HolyRoyal
   public class WorldMap : Node2D
   {
 
-    int m_WorldSeed = 1337;
-    Vector2 m_Size = new Vector2(100, 100);
+    static int m_WorldSeed = 1337;
+    static Vector2 m_Size = new Vector2(100, 100);
 
-    public IList Units { get; set; }
-    public IList Features { get; set; }
-    public IList Cities { get; set; }
+    public IList<Unit> Units { get; set; }
+    public IList<Feature> Features { get; set; }
+    public IList<City> Cities { get; set; }
+    public IList<Tile> Tiles { get; set; }
     public TileMap TileMap { get; set; }
 
-    public WorldMap(TileMap map)
+    public WorldMap()
     {
-      Units = new List<City>();
-      Features = new List<City>();
+      Units = new List<Unit>();
+      Features = new List<Feature>();
       Cities = new List<City>();
-      TileMap = map;
+      Tiles = new List<Tile>();
     }
 
     public override void _Ready()
     {
+      TileMap = GetNode<TileMap>("TileMap");
       Populate();
-      var c = new City();
-      Cities.Add(c);
+      var city = GetNode<City>("City");
+      Cities.Add(city);
     }
 
     public void Populate()
@@ -47,28 +49,80 @@ namespace HolyRoyal
         for (int y = 0; y <= m_Size.y; y++)
         {
           if (noise.GetNoise2d(x, y) > 0)
-            TileMap.SetCell(x, y, 1);
-
+          {
+            TileMap.SetCell(x, y, TileType.Plains);
+            Tiles.Add(new Tile(new Vector2(x, y), TileType.Plains, new List<Feature>()));
+          }
           else
-            TileMap.SetCell(x, y, 0);
+          {
+            TileMap.SetCell(x, y, TileType.Desert);
+            Tiles.Add(new Tile(new Vector2(x, y), TileType.Desert, new List<Feature>()));
+          }
         }
       }
     }
 
-    public void MoveUnit(string unit, Vector2 from, Vector2 to)
+    public void MoveUnit(Unit unit, Vector2 to)
     {
-      if(from != null && to != null)
+      if(to != null)
       {
-
+        unit.Position = to;
       }
     }
 
-    public void GetFeatures(Vector2 pos)
+    public IList<Feature> GetFeatures(Vector2 pos)
     {
-
+      return Features.Where(f => f.Position == pos).ToList();
     }
 
 
+    public Dictionary<Resource, double> GetYield(Vector2 position)
+    {
+      Tile tile = GetTile(position);
+      var yields = tile.Type.Yields;
+      Dictionary<Resource, double> result = new Dictionary<Resource, double>();
+      foreach(KeyValuePair<Resource, double> yield in yields)
+      {
+        foreach (Feature feature in tile.Features.Where(f => f.Yields.ContainsKey(yield.Key)))
+        {
+          if(!result.ContainsKey(yield.Key))
+          {
+            result.Add(yield.Key, 0.0);
+          }
+          result[yield.Key] += yield.Value + feature.Yields[yield.Key];
+        }
+      }
+      return result;
+    }
+
+    public Tile GetTile(Vector2 position)
+    {
+      return Tiles.FirstOrDefault(t => t.Position == position);
+    }
+
+
+
+    public int GetSlots(Vector2 position)
+    {
+      return GetTile(position).GetSlots();
+    }
+
+    public void CreateFeature(FeatureType featureType, Vector2 position )
+    {
+      var tile = GetTile(position);
+      var node = GD.Load<PackedScene>("res://Feature.tscn");
+      Feature feature = node.Instance() as Feature;
+      feature.Position = GetNode<TileMap>("TileMap").MapToWorld(position) + new Vector2(32, 32);
+      Features.Add(feature);
+      AddChild(feature);
+
+    }
+
+    public override void _UnhandledInput(InputEvent input)
+    {
+      base._UnhandledInput(input);
+
+    }
 
   }
 }

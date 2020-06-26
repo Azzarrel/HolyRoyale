@@ -41,7 +41,7 @@ public class Citizen : Node2D
 	{
 		if(Position != null)
 		{
-			return WorldMap.GetYied(Position);
+			return ((WorldMap)GetNode("../..")).GetYield(Position);
 		}
 	}
 
