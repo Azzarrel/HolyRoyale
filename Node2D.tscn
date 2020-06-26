@@ -2,7 +2,7 @@
 
 [ext_resource path="res://tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Border.tscn" type="PackedScene" id=2]
-[ext_resource path="res://TurnManager.gd" type="Script" id=3]
+[ext_resource path="res://TurnManager.cs" type="Script" id=3]
 [ext_resource path="res://WorldMap.gd" type="Script" id=4]
 [ext_resource path="res://icon.png" type="Texture" id=5]
 [ext_resource path="res://Player.gd" type="Script" id=6]
@@ -156,6 +156,4 @@ text = "Turn: 0"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="end_turn" from="TurnManager" to="WorldMap" method="_on_TurnManager_end_turn"]
-[connection signal="end_turn" from="TurnManager" to="UI/CityScreen" method="_on_TurnManager_end_turn"]
-[connection signal="pressed" from="UI/Button" to="TurnManager" method="_on_end_turn"]
+[connection signal="pressed" from="UI/Button" to="TurnManager" method="OnEndTurn"]
