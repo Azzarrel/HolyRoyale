@@ -9,14 +9,14 @@ namespace HolyRoyal
 		{
 		}
 
-		private int turn_number = 0;
+		private int turnNumber = 0;
 
 		[Signal]
 		public delegate void EndTurnSignal();
 
 		public void OnEndTurn()
 		{
-			turn_number++;
+			turnNumber++;
 			EmitSignal(nameof(EndTurnSignal), this);
 		}
 	}
