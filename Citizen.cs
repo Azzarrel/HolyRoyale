@@ -2,6 +2,8 @@ using Godot;
 using HolyRoyal;
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using Resource = HolyRoyal.Resource;
 
 public class Citizen : Node2D
 {
@@ -14,10 +16,8 @@ public class Citizen : Node2D
 	public WorldMap WorldMap { get; set; }
 	public City City { get; set; }
 
-	public Citizen(WorldMap map, City city)
+	public Citizen()
 	{
-		City = city;
-		WorldMap = map;
 		IsPlaced = false;
 		ClaimSpeed = 1;
 	}
@@ -37,17 +37,26 @@ public class Citizen : Node2D
 		 Position = position;        
 	}
 
-	public void GetYield()
+	public Dictionary<Resource, double> GetYield()
 	{
+		Dictionary<Resource, double> result = new Dictionary<Resource, double>();
 		if(Position != null)
 		{
-			return ((WorldMap)GetNode("../..")).GetYield(Position);
+			
+			var yields = GetNode<WorldMap>("../..").GetYield(Position);
+			foreach (KeyValuePair<Resource, double> yield in yields)
+			{
+				//ToDo: Increase based on Job
+			}
+			
+
 		}
+		return result;
 	}
 
-//  // Called every frame. 'delta' is the elapsed time since the previous frame.
-//  public override void _Process(float delta)
-//  {
-//      
-//  }
+	// Called every frame. 'delta' is the elapsed time since the previous frame.
+	public override void _Process(float delta)
+	{
+
+	}
 }

@@ -25,7 +25,7 @@ namespace HolyRoyal
       Yields = new Dictionary<Resource, double>() { { Resources.Gold, 1.0d } },
       Index = 0
     };
-    public static TileType Planes = new TileType()
+    public static TileType Plains = new TileType()
     {
       Yields = new Dictionary<Resource, double>() { { Resources.Food, 3.0d } },
       Index = 1

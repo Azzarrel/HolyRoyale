@@ -50,13 +50,13 @@ namespace HolyRoyal
         {
           if (noise.GetNoise2d(x, y) > 0)
           {
-            TileMap.SetCell(x, y, TileType.Plains);
-            Tiles.Add(new Tile(new Vector2(x, y), TileType.Plains, new List<Feature>()));
+            TileMap.SetCell(x, y, TileTypes.Plains.Index);
+            Tiles.Add(new Tile(new Vector2(x, y), TileTypes.Plains, new List<Feature>()));
           }
           else
           {
-            TileMap.SetCell(x, y, TileType.Desert);
-            Tiles.Add(new Tile(new Vector2(x, y), TileType.Desert, new List<Feature>()));
+            TileMap.SetCell(x, y, TileTypes.Desert.Index);
+            Tiles.Add(new Tile(new Vector2(x, y), TileTypes.Desert, new List<Feature>()));
           }
         }
       }
@@ -78,20 +78,22 @@ namespace HolyRoyal
 
     public Dictionary<Resource, double> GetYield(Vector2 position)
     {
+      
       Tile tile = GetTile(position);
-      var yields = tile.Type.Yields;
-      Dictionary<Resource, double> result = new Dictionary<Resource, double>();
-      foreach(KeyValuePair<Resource, double> yield in yields)
+      Dictionary<Resource, double> result = new Dictionary<Resource, double>(tile.Type.Yields);
+      foreach (Feature feature in tile.Features)
       {
-        foreach (Feature feature in tile.Features.Where(f => f.Yields.ContainsKey(yield.Key)))
+        foreach (KeyValuePair<Resource, double> yield in feature.Yields)
+
         {
-          if(!result.ContainsKey(yield.Key))
+          if (!result.ContainsKey(yield.Key))
           {
             result.Add(yield.Key, 0.0);
           }
-          result[yield.Key] += yield.Value + feature.Yields[yield.Key];
+          result[yield.Key] += feature.Yields[yield.Key];
         }
       }
+      
       return result;
     }
 
@@ -107,7 +109,7 @@ namespace HolyRoyal
       return GetTile(position).GetSlots();
     }
 
-    public void CreateFeature(FeatureType featureType, Vector2 position )
+    public void CreateFeature(FeatureTag featureTag, Vector2 position )
     {
       var tile = GetTile(position);
       var node = GD.Load<PackedScene>("res://Feature.tscn");
