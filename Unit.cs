@@ -1,13 +1,16 @@
-﻿using Godot;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Godot;
 
 namespace HolyRoyal
 {
   public class Unit : Node2D
   {
+	public override void _Ready()
+	{
+	}
+
+	public void OnTurnEnd()
+	{
+	  Position = Position + new Vector2(1, 0);
+	}
   }
 }
